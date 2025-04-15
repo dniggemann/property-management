@@ -1,0 +1,45 @@
+<fieldset [formGroupName]="controlName()">
+  <div>
+    <mat-form-field>
+      <mat-label>Straße & Hausnummer</mat-label>
+      <input
+        formControlName="streetAddress"
+        matInput
+        autocomplete="street-address"
+      />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Postleitzahl</mat-label>
+      <input
+        [formControlName]="'postalCode'"
+        matInput
+        autocomplete="postal-code"
+      />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Stadt</mat-label>
+      <input
+        [formControlName]="'locality'"
+        matInput
+        autocomplete="address-level2"
+      />
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Land</mat-label>
+      <input
+        [formControlName]="'countryName'"
+        matInput
+        autocomplete="country-name"
+      />
+    </mat-form-field>
+  </div>
+</fieldset>
