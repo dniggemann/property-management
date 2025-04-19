@@ -1,0 +1,26 @@
+<mat-form-field class="example-full-width">
+  <mat-label>Adresse suchen</mat-label>
+  <input
+    type="text"
+    spellcheck="false"
+    matInput
+    [formControl]="addressAutocompleteControl"
+    [matAutocomplete]="autocompleteSuggestionsPanel"
+  />
+  <mat-icon matSuffix>search</mat-icon>
+  <mat-autocomplete
+    #autocompleteSuggestionsPanel="matAutocomplete"
+    (optionSelected)="onSelectedAutocompleteOption($event.option.value)"
+    [displayWith]="mapSelectedOptionToDisplayValue"
+  >
+    @if (autocompleteSuggestions()) {
+      @for (suggestion of autocompleteSuggestions(); track $index) {
+        @if (suggestion.placePrediction) {
+          <mat-option [value]="suggestion.placePrediction">{{
+            suggestion.placePrediction.text.text
+          }}</mat-option>
+        }
+      }
+    }
+  </mat-autocomplete>
+</mat-form-field>
