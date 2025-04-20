@@ -1,0 +1,28 @@
+:host {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-toolbar {
+  background-color: var(--mat-sys-primary);
+  color: var(--mat-sys-on-primary);
+
+  .mat-icon {
+    color: var(--mat-sys-on-primary);
+  }
+}
+
+.mat-sidenav-container {
+  flex: 1;
+}
+
+.mat-sidenav {
+  color: var(--mat-sys-on-surface);
+  background-color: var(--mat-sys-surface-container-low);
+  width: 200px;
+}
+
+.mat-sidenav-content {
+  padding: 0 var(--space-m);
+}
