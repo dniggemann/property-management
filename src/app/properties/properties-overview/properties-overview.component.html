@@ -1,1 +1,36 @@
-<p>properties-overview works!</p>
+<h2>Immobilien</h2>
+
+<div class="c-page-control-bar">
+  <div class="o-button-container">
+    <button mat-stroked-button (click)="onReloadButtonClick()">
+      Tabelle neu laden
+    </button>
+    <button mat-flat-button (click)="onAddPropertyButtonClick()">
+      Immobilie Hinzufügen
+    </button>
+  </div>
+</div>
+
+@if (isLoadingProperties()) {
+  <mat-spinner></mat-spinner>
+} @else if (properties()) {
+  <table mat-table [dataSource]="tableData()">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Beschreibung</th>
+      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef>Adresse</th>
+      <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedTableColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedTableColumns"></tr>
+  </table>
+}

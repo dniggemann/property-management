@@ -18,3 +18,22 @@ fieldset {
   padding: 0;
   margin: 0;
 }
+
+.c-page-control-bar {
+  border-bottom: 2px solid var(--mat-sys-outline);
+  padding-bottom: var(--space-m);
+  margin-bottom: var(--space-m);
+}
+
+.o-button-container {
+  display: flex;
+  gap: var(--space-s);
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.mat-mdc-row {
+  cursor: pointer;
+}
