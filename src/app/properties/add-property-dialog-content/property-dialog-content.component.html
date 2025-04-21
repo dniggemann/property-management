@@ -1,13 +1,21 @@
-<h3 mat-dialog-title>Immobilie hinzufügen</h3>
+@let propertyId = matDialogData?.property?.id;
+
+<h3 mat-dialog-title>
+  Immobilie
+  {{ propertyId ? "bearbeiten" : "hinzufügen" }}
+</h3>
 <mat-dialog-content class="mat-typography">
   <app-address-autocomplete
     (optionSelected)="onAddressAutocompleteSelected($event)"
   ></app-address-autocomplete>
-  <form [formGroup]="form" id="add-property-form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" id="property-form" (ngSubmit)="onSubmit()">
     <p aria-hidden="true">
       <small><dfn>*</dfn> Pflichtfeld</small>
     </p>
 
+    @if (propertyId) {
+      <h4>Id: {{ propertyId }}</h4>
+    }
     <mat-form-field>
       <mat-label>Beschreibung</mat-label>
       <textarea formControlName="description" matInput></textarea>
@@ -20,20 +28,30 @@
   <button
     type="button"
     mat-button
-    [mat-dialog-close]="false"
+    [mat-dialog-close]="null"
     [disabled]="isSubmitting()"
   >
     Abbrechen
   </button>
+  @if (propertyId) {
+    <button
+      type="button"
+      mat-button
+      (click)="onDeleteButtonClick(propertyId)"
+      [disabled]="isSubmitting()"
+    >
+      Löschen
+    </button>
+  }
   <button
     type="submit"
     mat-button
-    form="add-property-form"
+    form="property-form"
     [disabled]="isSubmitting()"
   >
     @if (isSubmitting()) {
       <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
     }
-    Hinzufügen
+    {{ propertyId ? "Speichern" : "Hinzufügen" }}
   </button>
 </mat-dialog-actions>

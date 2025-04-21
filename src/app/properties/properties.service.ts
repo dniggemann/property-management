@@ -41,6 +41,21 @@ export class PropertiesService {
     return this.http.post<Property>(this.propertiesApiUrl, property);
   }
 
+  readProperty(propertyId: Property['id']) {
+    return this.http.get<Property>(`${this.propertiesApiUrl}/${propertyId}`);
+  }
+
+  updateProperty(property: Property) {
+    return this.http.put<Property>(
+      `${this.propertiesApiUrl}/${property.id}`,
+      property,
+    );
+  }
+
+  deleteProperty(propertyId: Property['id']) {
+    return this.http.delete<Property>(`${this.propertiesApiUrl}/${propertyId}`);
+  }
+
   private getProperties() {
     return this.http.get<Property[]>(this.propertiesApiUrl).pipe(
       map((data) => data),

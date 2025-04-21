@@ -31,6 +31,10 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedTableColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedTableColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedTableColumns"
+      (click)="onRowClick(row)"
+    ></tr>
   </table>
 }

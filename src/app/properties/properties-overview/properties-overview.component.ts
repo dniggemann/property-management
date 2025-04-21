@@ -54,6 +54,7 @@ export class PropertiesOverviewComponent implements OnInit {
   private propertiesService = inject(PropertiesService);
   private matSnackbarService = inject(MatSnackBar);
   private matDialogService = inject(MatDialog);
+  private router = inject(Router);
 
   readonly isLoadingProperties = this.propertiesService.isLoading;
   readonly properties = this.propertiesService.value;
@@ -71,7 +72,7 @@ export class PropertiesOverviewComponent implements OnInit {
 
   onAddPropertyButtonClick() {
     const dialogRef = this.matDialogService.open(
-      AddPropertyDialogContentComponent,
+      propertyDialogContentComponent,
     );
 
     dialogRef.afterClosed().subscribe((isPropertyAdded: boolean) => {
@@ -82,8 +83,35 @@ export class PropertiesOverviewComponent implements OnInit {
     });
   }
 
+  /**
+   * Open edit dialog on row click
+   */
+  onRowClick(rowDataItem: RowDataItem) {
+    if (rowDataItem.id) {
+      const dialogRef = this.matDialogService.open(
+        propertyDialogContentComponent,
+        {
+          data: {
+            property: this.propertiesService
+              .value()
+              ?.find((item) => item.id === rowDataItem.id),
+          },
+        },
+      );
+
+      dialogRef.afterClosed().subscribe((isPropertyAdded: boolean) => {
+        if (isPropertyAdded) {
+          this.matSnackbarService.open('Immobilie bearbeitet');
+          this.propertiesService.loadProperties();
+        }
+      });
+    } else {
+      console.error('Property ID is missing');
+    }
+  }
+
   private propertiesToTableData(properties: Property[] | null) {
-    const tableData = properties
+    const tableData: RowDataItem[] = properties
       ? properties.map((property) => {
           return {
             id: property.id,

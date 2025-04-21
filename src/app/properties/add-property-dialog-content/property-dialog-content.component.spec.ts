@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddPropertyDialogContentComponent } from './add-property-dialog-content.component';
+import { propertyDialogContentComponent } from './property-dialog-content.component';
 
 describe('AddPropertyDialogContentComponent', () => {
-  let component: AddPropertyDialogContentComponent;
-  let fixture: ComponentFixture<AddPropertyDialogContentComponent>;
+  let component: propertyDialogContentComponent;
+  let fixture: ComponentFixture<propertyDialogContentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddPropertyDialogContentComponent],
+      imports: [propertyDialogContentComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AddPropertyDialogContentComponent);
+    fixture = TestBed.createComponent(propertyDialogContentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
