@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
 import { ClickStopPropagationDirective } from '../../utils/directives/click-stop-propagation';
 import { MatIcon } from '@angular/material/icon';
 import { RoutePath } from '../../shared/route-path';
+import { CrudAction } from '../../shared/crud-action';
 
 @Component({
   selector: 'app-contacts-overview',
@@ -78,8 +79,8 @@ export class ContactsOverviewComponent implements OnInit {
   onAddContactButtonClick() {
     const dialogRef = this.matDialogService.open(ContactDialogContentComponent);
 
-    dialogRef.afterClosed().subscribe((isPropertyAdded: boolean) => {
-      if (isPropertyAdded) {
+    dialogRef.afterClosed().subscribe((crudAction: CrudAction) => {
+      if (crudAction === CrudAction.CREATE) {
         this.matSnackbarService.open('Kontakt hinzugefügt');
         this.contactsService.loadContacts();
       }
@@ -109,9 +110,17 @@ export class ContactsOverviewComponent implements OnInit {
         },
       );
 
-      dialogRef.afterClosed().subscribe((isContactEdited: boolean) => {
-        if (isContactEdited) {
+      dialogRef.afterClosed().subscribe((crudAction: CrudAction) => {
+        if (crudAction === CrudAction.UPDATE) {
           this.matSnackbarService.open('Kontakt bearbeitet');
+        }
+        if (crudAction === CrudAction.DELETE) {
+          this.matSnackbarService.open('Kontakt gelöscht');
+        }
+        if (
+          crudAction === CrudAction.UPDATE ||
+          crudAction === CrudAction.DELETE
+        ) {
           this.contactsService.loadContacts();
         }
       });

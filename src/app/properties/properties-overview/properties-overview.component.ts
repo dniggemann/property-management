@@ -24,6 +24,7 @@ import { Router } from '@angular/router';
 import { AddPropertyDialogContentComponent } from '../add-property-dialog-content/add-property-dialog-content.component';
 import { ClickStopPropagationDirective } from '../../utils/directives/click-stop-propagation';
 import { MatIcon } from '@angular/material/icon';
+import { CrudAction } from '../../shared/crud-action';
 
 @Component({
   selector: 'app-properties-overview',
@@ -59,7 +60,6 @@ export class PropertiesOverviewComponent implements OnInit {
   private propertiesService = inject(PropertiesService);
   private matSnackbarService = inject(MatSnackBar);
   private matDialogService = inject(MatDialog);
-  private router = inject(Router);
 
   readonly isLoadingProperties = this.propertiesService.isLoading;
   readonly properties = this.propertiesService.value;
@@ -80,8 +80,8 @@ export class PropertiesOverviewComponent implements OnInit {
       propertyDialogContentComponent,
     );
 
-    dialogRef.afterClosed().subscribe((isPropertyAdded: boolean) => {
-      if (isPropertyAdded) {
+    dialogRef.afterClosed().subscribe((crudAction: CrudAction) => {
+      if (crudAction === CrudAction.CREATE) {
         this.matSnackbarService.open('Immobilie hinzugefügt');
         this.propertiesService.loadProperties();
       }
@@ -104,9 +104,17 @@ export class PropertiesOverviewComponent implements OnInit {
         },
       );
 
-      dialogRef.afterClosed().subscribe((isPropertyAdded: boolean) => {
-        if (isPropertyAdded) {
+      dialogRef.afterClosed().subscribe((crudAction: CrudAction) => {
+        if (crudAction === CrudAction.UPDATE) {
           this.matSnackbarService.open('Immobilie bearbeitet');
+        }
+        if (crudAction === CrudAction.DELETE) {
+          this.matSnackbarService.open('Immobilie gelöscht');
+        }
+        if (
+          crudAction === CrudAction.UPDATE ||
+          crudAction === CrudAction.DELETE
+        ) {
           this.propertiesService.loadProperties();
         }
       });
