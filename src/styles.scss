@@ -19,6 +19,15 @@ fieldset {
   margin: 0;
 }
 
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin-left: 0;
+  margin-bottom: var(--space-s);
+}
+
 .c-page-control-bar {
   border-bottom: 2px solid var(--mat-sys-outline);
   padding-bottom: var(--space-m);

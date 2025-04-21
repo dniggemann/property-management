@@ -1,1 +1,64 @@
-<p>contacts-detail works!</p>
+<h2>Kontakt-Detail</h2>
+
+<div class="c-page-control-bar">
+  <div class="o-button-container">
+    <a mat-button [routerLink]="['/', routePath.CONTACTS]">Zurück</a>
+  </div>
+</div>
+
+@let contactRelations = relationsResourceRef.value();
+
+@if (relationsResourceRef.isLoading()) {
+  <mat-progress-spinner></mat-progress-spinner>
+} @else if (contactRelations) {
+  <h3>Kontakt</h3>
+  <dl>
+    <dt>ID</dt>
+    <dd>{{ contactRelations.contact.id }}</dd>
+    <dt>Name</dt>
+    <dd>{{ contactRelations.contact.name }}</dd>
+    <dt>Adresse</dt>
+    <dd>
+      {{ contactRelations.contact.address.streetAddress }}<br />
+      {{ contactRelations.contact.address.postalCode }}
+      {{ contactRelations.contact.address.locality }}<br />
+      {{ contactRelations.contact.address.countryName }}
+    </dd>
+  </dl>
+
+  <h3>Beziehungen</h3>
+
+  @for (relation of contactRelations.relations; track relation.id) {
+    <dl>
+      <dt>Beziehung ID</dt>
+      <dd>{{ relation.id }}</dd>
+      <dt>Beziehung Typ ID</dt>
+      <dd>{{ relation.typeId }}</dd>
+      <dt>Startdatum</dt>
+      <dd>{{ relation.startDate | date }}</dd>
+      <dt>Enddatum</dt>
+      <dd>{{ relation.endDate | date }}</dd>
+      <dt>Immobilie ID</dt>
+      <dd>
+        {{ relation.propertyId }}
+      </dd>
+      <dt>Immobilie-Adresse</dt>
+      <dd>
+        {{ relation.property.address.streetAddress }}<br />
+        {{ relation.property.address.postalCode }}
+        {{ contactRelations.contact.address.locality }}<br />
+        {{ relation.property.address.countryName }}
+      </dd>
+      <dt>Beschreibung</dt>
+      <dd>
+        {{ relation.property.description }}
+      </dd>
+    </dl>
+  } @empty {
+    <p>Keine Beziehungen</p>
+  }
+}
+
+@if (relationsResourceRef.error()) {
+  <p>Laden fehlgeschlagen</p>
+}

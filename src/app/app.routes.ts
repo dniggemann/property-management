@@ -4,6 +4,7 @@ import { ContactsOverviewComponent } from './contacts/contacts-overview/contacts
 import { PropertiesOverviewComponent } from './properties/properties-overview/properties-overview.component';
 import { RelationsOverviewComponent } from './relations/relations-overview/relations-overview.component';
 import { RoutePath } from './shared/route-path';
+import { ContactsDetailComponent } from './contacts/contacts-detail/contacts-detail.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,10 @@ export const routes: Routes = [
   {
     path: RoutePath.CONTACTS,
     component: ContactsOverviewComponent,
+  },
+  {
+    path: `${RoutePath.CONTACTS}/${RoutePath.ID}`,
+    component: ContactsDetailComponent,
   },
   {
     path: RoutePath.PROPERTIES,
