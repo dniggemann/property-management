@@ -1,0 +1,39 @@
+<h3 mat-dialog-title>Immobilie hinzufügen</h3>
+<mat-dialog-content class="mat-typography">
+  <app-address-autocomplete
+    (optionSelected)="onAddressAutocompleteSelected($event)"
+  ></app-address-autocomplete>
+  <form [formGroup]="form" id="add-property-form" (ngSubmit)="onSubmit()">
+    <p aria-hidden="true">
+      <small><dfn>*</dfn> Pflichtfeld</small>
+    </p>
+
+    <mat-form-field>
+      <mat-label>Beschreibung</mat-label>
+      <textarea formControlName="description" matInput></textarea>
+    </mat-form-field>
+    <app-address-fieldset controlName="address"></app-address-fieldset>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    type="button"
+    mat-button
+    [mat-dialog-close]="false"
+    [disabled]="isSubmitting()"
+  >
+    Abbrechen
+  </button>
+  <button
+    type="submit"
+    mat-button
+    form="add-property-form"
+    [disabled]="isSubmitting()"
+  >
+    @if (isSubmitting()) {
+      <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
+    }
+    Hinzufügen
+  </button>
+</mat-dialog-actions>
