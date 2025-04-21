@@ -1,0 +1,57 @@
+@let contactId = matDialogData?.contact?.id;
+
+<h3 mat-dialog-title>
+  Kontakt
+  {{ contactId ? "bearbeiten" : "hinzufügen" }}
+</h3>
+<mat-dialog-content class="mat-typography">
+  <app-address-autocomplete
+    (optionSelected)="onAddressAutocompleteSelected($event)"
+  ></app-address-autocomplete>
+  <form [formGroup]="form" id="contact-form" (ngSubmit)="onSubmit()">
+    <p aria-hidden="true">
+      <small><dfn>*</dfn> Pflichtfeld</small>
+    </p>
+
+    @if (contactId) {
+      <h4>Id: {{ contactId }}</h4>
+    }
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput autocomplete="name" />
+    </mat-form-field>
+    <app-address-fieldset controlName="address"></app-address-fieldset>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    type="button"
+    mat-button
+    [mat-dialog-close]="null"
+    [disabled]="isSubmitting()"
+  >
+    Abbrechen
+  </button>
+  @if (contactId) {
+    <button
+      type="button"
+      mat-button
+      (click)="onDeleteButtonClick(contactId)"
+      [disabled]="isSubmitting()"
+    >
+      Löschen
+    </button>
+  }
+  <button
+    type="submit"
+    mat-button
+    form="contact-form"
+    [disabled]="isSubmitting()"
+  >
+    @if (isSubmitting()) {
+      <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
+    }
+    {{ contactId ? "Speichern" : "Hinzufügen" }}
+  </button>
+</mat-dialog-actions>
