@@ -16,12 +16,14 @@ import {
   MatTableDataSource,
 } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { propertyDialogContentComponent } from '../add-property-dialog-content/property-dialog-content.component';
 import { RowDataItem } from '../types/row-data-item';
 import { Router } from '@angular/router';
 import { AddPropertyDialogContentComponent } from '../add-property-dialog-content/add-property-dialog-content.component';
+import { ClickStopPropagationDirective } from '../../utils/directives/click-stop-propagation';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-properties-overview',
@@ -38,6 +40,9 @@ import { AddPropertyDialogContentComponent } from '../add-property-dialog-conten
     MatHeaderRowDef,
     MatRowDef,
     MatButton,
+    ClickStopPropagationDirective,
+    MatIcon,
+    MatIconButton,
   ],
   templateUrl: './properties-overview.component.html',
   styleUrl: './properties-overview.component.scss',
@@ -60,7 +65,7 @@ export class PropertiesOverviewComponent implements OnInit {
   readonly properties = this.propertiesService.value;
 
   tableData = computed(() => this.propertiesToTableData(this.properties()));
-  displayedTableColumns: string[] = ['id', 'address', 'description'];
+  displayedTableColumns: string[] = ['id', 'address', 'description', 'edit'];
 
   ngOnInit() {
     this.propertiesService.loadProperties();
@@ -84,9 +89,9 @@ export class PropertiesOverviewComponent implements OnInit {
   }
 
   /**
-   * Open edit dialog on row click
+   * Open edit dialog on edit button click
    */
-  onRowClick(rowDataItem: RowDataItem) {
+  onEditButtonClick(rowDataItem: RowDataItem) {
     if (rowDataItem.id) {
       const dialogRef = this.matDialogService.open(
         propertyDialogContentComponent,

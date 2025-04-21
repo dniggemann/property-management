@@ -33,7 +33,12 @@
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef>Aktionen</th>
       <td mat-cell *matCellDef="let element">
-        <button mat-icon-button aria-label="Bearbeiten" (click)="onEditClick(element)" appClickStopPropagation>
+        <button
+          mat-icon-button
+          aria-label="Bearbeiten"
+          (click)="onEditClick(element)"
+          appClickStopPropagation
+        >
           <mat-icon>edit</mat-icon>
         </button>
       </td>
@@ -41,6 +46,7 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedTableColumns"></tr>
     <tr
+      class="u-cursor-pointer"
       mat-row
       *matRowDef="let row; columns: displayedTableColumns"
       (click)="onRowClick(row)"
