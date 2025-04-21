@@ -3,7 +3,7 @@ import { Contact } from './contact';
 import { RelationTypeId } from '../relation-type-id';
 import { ServiceProviderServiceId } from '../service-provider-service-id';
 
-export type PropertyContractRelation = {
+export type PropertyContactRelation = {
   id?: string;
   propertyId: Property['id'];
   contactId: Contact['id'];
