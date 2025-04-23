@@ -1,0 +1,159 @@
+@let relationId = matDialogData?.relation?.id;
+@let isLoadingFormData = isLoadingContacts() || isLoadingProperties();
+@let hasLoadingError = contactsErrorMessage() || propertiesErrorMessage();
+<h3 mat-dialog-title>
+  Beziehung
+  {{ relationId ? "bearbeiten" : "hinzufügen" }}
+</h3>
+
+<mat-dialog-content class="mat-typography">
+  @if (isLoadingFormData) {
+    <mat-progress-bar mode="buffer"></mat-progress-bar>
+  }
+  @if (hasLoadingError) {
+    <p>Fehler beim Laden des Formulars</p>
+  }
+  <form [formGroup]="form" id="relation-form" (ngSubmit)="onSubmit()">
+    <p aria-hidden="true">
+      <small><dfn>*</dfn> Pflichtfeld</small>
+    </p>
+
+    @if (relationId) {
+      <h4>Id: {{ relationId }}</h4>
+    }
+
+    <mat-form-field>
+      <mat-label>Kontakt</mat-label>
+      <input
+        type="text"
+        spellcheck="false"
+        matInput
+        formControlName="contact"
+        [matAutocomplete]="contactAutocompletePanel"
+        [readonly]="isLoadingFormData"
+        [placeholder]="isLoadingFormData ? 'Laden ...' : ''"
+      />
+      <mat-autocomplete
+        #contactAutocompletePanel="matAutocomplete"
+        [displayWith]="selectedOptionIdToLabel"
+      >
+        @if (contactOptions()) {
+          @for (option of contactOptions(); track option.id) {
+            <mat-option [value]="option">{{ option.label }}</mat-option>
+          }
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Immobilie</mat-label>
+      <input
+        type="text"
+        spellcheck="false"
+        matInput
+        formControlName="property"
+        [matAutocomplete]="propertyAutocompletePanel"
+        [readonly]="isLoadingFormData"
+        [placeholder]="isLoadingFormData ? 'Laden ...' : ''"
+      />
+      <mat-autocomplete
+        #propertyAutocompletePanel="matAutocomplete"
+        [displayWith]="selectedOptionIdToLabel"
+      >
+        @if (propertyOptions()) {
+          @for (option of propertyOptions(); track option.id) {
+            <mat-option [value]="option">{{ option.label }}</mat-option>
+          }
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Beziehung</mat-label>
+      <mat-select formControlName="type">
+        @for (option of relationTypeOptions; track option.id) {
+          <mat-option [value]="option">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (form.contains("services")) {
+      <mat-form-field>
+        <mat-label>Dienstleistungen</mat-label>
+        <mat-select formControlName="services" multiple>
+          @for (option of servicesOptions; track option.id) {
+            <mat-option [value]="option.id">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+
+    <mat-form-field>
+      <mat-label>Startdatum</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickerStartDate"
+        formControlName="startDate"
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="pickerStartDate"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #pickerStartDate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Enddatum</mat-label>
+      <input
+        matInput
+        [matDatepicker]="pickerEndDate"
+        formControlName="endDate"
+      />
+      <mat-datepicker-toggle
+        matIconSuffix
+        [for]="pickerEndDate"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #pickerEndDate></mat-datepicker>
+    </mat-form-field>
+    @if (hasDateRangeError) {
+      <mat-error
+        >Zeitraum überschneidet sich mit einer bestehenden
+        Mieter-Beziehung.</mat-error
+      >
+    }
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    type="button"
+    mat-button
+    [mat-dialog-close]="null"
+    [disabled]="isPending()"
+  >
+    Abbrechen
+  </button>
+
+  @if (relationId) {
+    <button
+      type="button"
+      mat-button
+      (click)="onDeleteButtonClick(relationId)"
+      [disabled]="isPending() || isLoadingFormData"
+    >
+      Löschen
+    </button>
+  }
+
+  <button
+    type="submit"
+    mat-button
+    form="relation-form"
+    [disabled]="isPending() || isLoadingFormData"
+  >
+    @if (isPending()) {
+      <mat-icon><mat-spinner diameter="17"></mat-spinner></mat-icon>
+    }
+    {{ relationId ? "Speichern" : "Hinzufügen" }}
+  </button>
+</mat-dialog-actions>

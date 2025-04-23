@@ -1,1 +1,70 @@
-<p>relations-overview works!</p>
+<h2>Beziehungen</h2>
+
+<div class="c-page-control-bar">
+  <div class="o-button-container">
+    <button mat-stroked-button (click)="onReloadButtonClick()">
+      Tabelle neu laden
+    </button>
+    <button mat-flat-button (click)="onAddRelationButtonClick()">
+      Beziehung Hinzufügen
+    </button>
+  </div>
+</div>
+
+@if (isLoadingRelations()) {
+  <mat-spinner></mat-spinner>
+} @else if (relations()) {
+  <table mat-table [dataSource]="tableData()">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="propertyId">
+      <th mat-header-cell *matHeaderCellDef>Immobilie ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.propertyId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="contactId">
+      <th mat-header-cell *matHeaderCellDef>Kontakt ID</th>
+      <td mat-cell *matCellDef="let element">{{ element.contactId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="startDate">
+      <th mat-header-cell *matHeaderCellDef>Startdatum</th>
+      <td mat-cell *matCellDef="let element">{{ element.startDate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="endDate">
+      <th mat-header-cell *matHeaderCellDef>Enddatum</th>
+      <td mat-cell *matCellDef="let element">{{ element.endDate }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="typeId">
+      <th mat-header-cell *matHeaderCellDef>TypId</th>
+      <td mat-cell *matCellDef="let element">{{ element.typeId }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="serviceIds">
+      <th mat-header-cell *matHeaderCellDef>ServiceIds</th>
+      <td mat-cell *matCellDef="let element">{{ element.serviceIds }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Aktionen</th>
+      <td mat-cell *matCellDef="let element">
+        <button
+          mat-icon-button
+          aria-label="Bearbeiten"
+          (click)="onEditButtonClick(element)"
+          appClickStopPropagation
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedTableColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedTableColumns"></tr>
+  </table>
+}

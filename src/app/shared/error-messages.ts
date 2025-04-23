@@ -5,4 +5,5 @@ export enum ErrorMessages {
   CREATE_PROPERTY_FAILED = 'Fehler beim Erstellen der Immobilie',
   UPDATE_PROPERTY_FAILED = 'Fehler beim Bearbeiten der Immobilie',
   DELETE_PROPERTY_FAILED = 'Fehler beim Löschen der Immobilie',
+  FORM_VALIDATION_FAILED = 'Formularvalidierung fehlgeschlagen',
 }
