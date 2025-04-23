@@ -20,8 +20,6 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { propertyDialogContentComponent } from '../add-property-dialog-content/property-dialog-content.component';
 import { RowDataItem } from '../types/row-data-item';
-import { Router } from '@angular/router';
-import { AddPropertyDialogContentComponent } from '../add-property-dialog-content/add-property-dialog-content.component';
 import { ClickStopPropagationDirective } from '../../utils/directives/click-stop-propagation';
 import { MatIcon } from '@angular/material/icon';
 import { CrudAction } from '../../shared/crud-action';
