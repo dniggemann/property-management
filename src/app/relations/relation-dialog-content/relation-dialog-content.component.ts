@@ -60,7 +60,10 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { idLabelServiceItems } from '../../shared/id-label-service-items';
-import { idLabelRelationTypeItems } from '../../shared/id-label-relation-type-items';
+import {
+  IdLabelRelationTypeItem,
+  idLabelRelationTypeItems,
+} from '../../shared/id-label-relation-type-items';
 import { MatSelect } from '@angular/material/select';
 import {
   MatDatepicker,
@@ -280,6 +283,7 @@ export class RelationDialogContentComponent implements OnInit, OnDestroy {
   onSubmit(): void {
     if (this.form.valid) {
       this.getDateRangeValidity(
+        this.form.controls.type.value,
         this.form.controls.contact.value,
         this.form.controls.startDate.value,
         this.form.controls.endDate.value,
@@ -399,10 +403,14 @@ export class RelationDialogContentComponent implements OnInit, OnDestroy {
    * Quick workaround solution.
    */
   private getDateRangeValidity(
+    typeId: IdLabelRelationTypeItem,
     contact: Contact,
     startDate: string,
     endDate: string,
   ): Observable<boolean> {
+    if (typeId.id !== RelationTypeId.TENANT) {
+      return of(true);
+    }
     if (!contact.id) {
       throw new Error('No contactId was provided.');
     }

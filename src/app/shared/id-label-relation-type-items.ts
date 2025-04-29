@@ -1,6 +1,11 @@
 import { RelationTypeId } from './relation-type-id';
+import { IdLabelItem } from './types/id-label-item';
 
-export const idLabelRelationTypeItems = [
+export interface IdLabelRelationTypeItem extends IdLabelItem {
+  id: RelationTypeId;
+}
+
+export const idLabelRelationTypeItems: IdLabelRelationTypeItem[] = [
   {
     id: RelationTypeId.TENANT,
     label: 'Mieter',
