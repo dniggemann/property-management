@@ -22,10 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatIcon } from '@angular/material/icon';
 import { AddressAutocompleteComponent } from '../../shared/address-autocomplete/address-autocomplete.component';
-import {
-  AddressFieldsetComponent,
-  ADDRESS_FIELDSET_CHILD_CONTROLS,
-} from '../../shared/address-fieldset/address-fieldset.component';
+import { AddressFieldsetComponent } from '../../shared/address-fieldset/address-fieldset.component';
 import {
   FormControl,
   FormGroup,
@@ -99,7 +96,24 @@ export class propertyDialogContentComponent implements OnInit, OnDestroy {
       nonNullable: true,
       validators: Validators.required,
     }),
-    address: new FormGroup(ADDRESS_FIELDSET_CHILD_CONTROLS),
+    address: new FormGroup({
+      streetAddress: new FormControl('', {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+      postalCode: new FormControl('', {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+      locality: new FormControl('', {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+      countryName: new FormControl('', {
+        nonNullable: true,
+        validators: Validators.required,
+      }),
+    }),
   });
 
   /**

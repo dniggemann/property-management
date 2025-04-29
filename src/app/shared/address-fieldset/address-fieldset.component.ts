@@ -8,25 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 
-export const ADDRESS_FIELDSET_CHILD_CONTROLS = {
-  streetAddress: new FormControl('', {
-    nonNullable: true,
-    validators: Validators.required,
-  }),
-  postalCode: new FormControl('', {
-    nonNullable: true,
-    validators: Validators.required,
-  }),
-  locality: new FormControl('', {
-    nonNullable: true,
-    validators: Validators.required,
-  }),
-  countryName: new FormControl('', {
-    nonNullable: true,
-    validators: Validators.required,
-  }),
-};
-
 @Component({
   selector: 'app-address-fieldset',
   imports: [MatFormField, MatLabel, MatInput, ReactiveFormsModule],
@@ -39,6 +20,7 @@ export const ADDRESS_FIELDSET_CHILD_CONTROLS = {
   templateUrl: './address-fieldset.component.html',
   styleUrl: './address-fieldset.component.scss',
 })
+// TODO: Implement as Custom Form Inputs with ControlValueAccessor
 export class AddressFieldsetComponent implements OnInit, OnDestroy {
   /**
    * Tracks the name of the `FormGroup` bound to the parent `FormGroup` directive.
@@ -64,7 +46,24 @@ export class AddressFieldsetComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.parentFormGroup.addControl(
       this.controlName(),
-      new FormGroup(ADDRESS_FIELDSET_CHILD_CONTROLS),
+      new FormGroup({
+        streetAddress: new FormControl('', {
+          nonNullable: true,
+          validators: Validators.required,
+        }),
+        postalCode: new FormControl('', {
+          nonNullable: true,
+          validators: Validators.required,
+        }),
+        locality: new FormControl('', {
+          nonNullable: true,
+          validators: Validators.required,
+        }),
+        countryName: new FormControl('', {
+          nonNullable: true,
+          validators: Validators.required,
+        }),
+      }),
     );
   }
   /**
